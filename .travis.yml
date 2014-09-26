@@ -1,11 +1,13 @@
 language: python
 python:
-  - "2.7"
+  - 2.7
 # command to install dependencies
-install: "pip install flask"
-install: "pip install selenium"
-install: "pip install python-wd-parallel"
+install:
+  - pip install flask
+  - pip install selenium
+  - pip install python-wd-parallel
 # command to run tests
-script: "sqlite3 /tmp/flaskr.db < schema.sql"
-script: "python flaskr.py"
-script: "python test_login.py"
+script:
+  - sqlite3 /tmp/flaskr.db < schema.sql
+  - python flaskr.py
+  - python test_login.py
