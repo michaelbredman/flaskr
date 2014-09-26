@@ -80,16 +80,15 @@ class TestLogin(unittest.TestCase):
         self.driver.find_element_by_name("password").send_keys("default")
         self.driver.find_element_by_css_selector("input[type=\"submit\"]").click()
         self.driver.find_element_by_link_text("log out").click()
-        #title = self.driver.title
-        #self.assertEquals("American Greetings", title)
+
 
         # wait = (self.driver, 30)
         # print "Wait" + str(wait)
         # condition = EC.text_to_be_present_in_element((By.TAG_NAME, "html"), "Private Banking")
         # print "********CONDIITON***********" + str(condition)
         # This is currently saving the image locally how do I do it on Sauce?
-            # self.driver.save_screenshot(self.driver.desired_capabilities['platform'] \
-        # + "-" + self.driver.desired_capabilities['version'] + "-" + self.driver.session_id + ".png")
+        self.driver.save_screenshot(self.driver.desired_capabilities['platform'] \
+        + "-" + self.driver.desired_capabilities['version'] + "-" + self.driver.session_id + ".png")
         # wait.until(condition)
 
     @wd.parallel.multiply

@@ -7,8 +7,9 @@ install:
   - pip install selenium
   - pip install python-wd-parallel
 # command to run tests
-script:
+before_script:
   - sqlite3 /tmp/flaskr.db < schema.sql
+script:
   - flask --app=flaskr initdb
   - flask --app=flaskr run
   - python test_login.py
