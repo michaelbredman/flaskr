@@ -9,5 +9,6 @@ install:
 # command to run tests
 script:
   - sqlite3 /tmp/flaskr.db < schema.sql
-  - python flaskr.py
+  - flask --app=flaskr initdb
+  - flask --app=flaskr run
   - python test_login.py
