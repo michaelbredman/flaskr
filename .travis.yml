@@ -1,6 +1,12 @@
 language: python
 python:
   - 2.7
+env:
+  global:
+    - secure: GuQ1IxuwcU7eLwzDA8zn6Xuea0XpDmBH9Pu/jeJrewaB4SypFv313ALpj5T7E22jZCh2t76IlAk5X0AHBLsgDWWv1ufnjUXQrnjPHrMifhcgp4nRTOOcFJLvVQZQOzWFJJohm6Tq4LqnDXgqA4Zc8abAmEU7OfRIjJ3LPRaL4kg=
+    - secure: gATUbdF15YMERnj6mYVCoRwnZuWwsEmPXFf2vSoKjETowRn8hVE9+49hFup9VRJDl/hda31POMcy9NOnw05l3ihR8I2l8dFR6iLOLEzsLNZ+6y1VDbIodaXputWIEsoDZ6qgAZDRDpQmaQnGR53Q+BPQC3oufm0TATZp6z+iJnA=
+addons:
+  sauce_connect: true
 # command to install dependencies
 install:
   - pip install flask
@@ -10,5 +16,5 @@ install:
 before_script:
   - sqlite3 /tmp/flaskr.db < schema.sql
 script:
-  - python flaskr.py
-  - python test_login.py
+  - sudo python flaskr.py
+  - sudo python test_login.py
