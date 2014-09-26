@@ -10,12 +10,13 @@ addons:
 # command to install dependencies
 install:
   - sudo apt-get install sqlite3
-  - pip install flask==0.10.1
+  - pip install https://github.com/mitsuhiko/flask/tarball/master
   - pip install selenium
   - pip install python-wd-parallel
 # command to run tests
 before_script:
   - sqlite3 /tmp/flaskr.db < schema.sql
 script:
-  - python flaskr.py
+  - flask --app=flaskr initdb
+  - flask --app=flaskr run
   - python test_login.py
