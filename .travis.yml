@@ -10,7 +10,7 @@ addons:
 # command to install dependencies
 install:
   - sudo apt-get install sqlite3
-  - pip install git+git://github.com/mitsuhiko/flask/releases/tag/0.10.1
+  - pip install git+https://github.com/mitsuhiko/flask/releases/tag/0.10.1
   - pip install selenium
   - pip install python-wd-parallel
 # command to run tests
