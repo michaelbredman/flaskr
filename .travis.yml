@@ -1,10 +1,11 @@
 language: python
 python:
-  - "2.6"
   - "2.7"
-  - "3.2"
-  - "3.3"
 # command to install dependencies
-install: "pip install -r requirements.txt"
+install: "pip install flask"
+install: "pip install selenium"
+install: "pip install python-wd-parallel"
 # command to run tests
-script: nosetests
+script: "sqlite3 /tmp/flaskr.db < schema.sql"
+script: "python flaskr.py"
+script: "python test_login.py"
