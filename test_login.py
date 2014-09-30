@@ -16,7 +16,7 @@ class TestLogin(unittest.TestCase):
         browser['platform'] = 'Windows 8.1'
         browser['name'] = 'Windows 8.1 Chrome 35'
         browser['version'] = '35'
-        browser['tunnel-identifier'] = os.environ['TRAVIS_JOB_NUMBER']
+        # browser['tunnel-identifier'] = os.environ['TRAVIS_JOB_NUMBER']
         desired_capabilities += [browser]
 
         browser = copy.copy(webdriver.DesiredCapabilities.FIREFOX)
