@@ -16,6 +16,6 @@ install:
 # command to run tests
 before_script:
   - sqlite3 /tmp/flaskr.db < schema.sql
-script:
   - flask --app=flaskr run
+script:
   - python test_login.py

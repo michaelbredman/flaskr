@@ -17,7 +17,8 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
 
 # configuration this can be moved to a config file eventually
 DATABASE = '/tmp/flaskr.db'
-DEBUG = True
+DEBUG = False
+TESTING = False
 SECRET_KEY = 'development key'
 USERNAME = 'admin'
 PASSWORD = 'default'
@@ -28,7 +29,8 @@ app = Flask(__name__)
 # Load default config and override config from an environment variable
 app.config.update(dict(
     DATABASE=os.path.join(app.root_path, 'flaskr.db'),
-    DEBUG=True,
+    DEBUG=False,
+    TESTING=False,
     SECRET_KEY='development key',
     USERNAME='admin',
     PASSWORD='default'
@@ -117,4 +119,4 @@ def logout():
     return redirect(url_for('show_entries'))
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True, port=5000, use_reloader=True)
+    app.run()
