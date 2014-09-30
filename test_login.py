@@ -51,9 +51,8 @@ class TestLogin(unittest.TestCase):
 
     @wd.parallel.multiply
     def test_parallel(self):
-        self.driver.get("http://www.yahoo.com")
+        # self.driver.get("http://www.yahoo.com")
 
-        '''
         self.driver.get("http://localhost:5000")
         self.driver.find_element_by_link_text("log in").click()
         self.driver.find_element_by_name("username").click()
@@ -64,7 +63,6 @@ class TestLogin(unittest.TestCase):
         self.driver.find_element_by_name("password").send_keys("default")
         self.driver.find_element_by_css_selector("input[type=\"submit\"]").click()
         self.driver.find_element_by_link_text("log out").click()
-        '''
 
     @wd.parallel.multiply
     def tearDown(self):
