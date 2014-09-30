@@ -17,5 +17,5 @@ install:
 before_script:
   - sqlite3 /tmp/flaskr.db < schema.sql
 script:
-  - python flaskr.py
+  - flask app=flaskr run
   - python test_login.py
