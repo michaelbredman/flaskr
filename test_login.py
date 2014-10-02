@@ -1,4 +1,7 @@
 from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import unittest
 import sys
 import copy
@@ -24,24 +27,28 @@ class TestLogin(unittest.TestCase):
         browser['name'] = 'Windows 8.1 Firefox 29'
         browser['version'] = '29'
         browser['screen-resolution'] = '1280x1024'
+        browser['tunnel-identifier'] = os.environ['TRAVIS_JOB_NUMBER']
         desired_capabilities += [browser]
 
         browser = copy.copy(webdriver.DesiredCapabilities.INTERNETEXPLORER)
         browser['platform'] = 'Windows 7'
         browser['name'] = 'Windows 7 IE 9'
         browser['version'] = '9'
+        browser['tunnel-identifier'] = os.environ['TRAVIS_JOB_NUMBER']
         desired_capabilities += [browser]
 
         browser = copy.copy(webdriver.DesiredCapabilities.INTERNETEXPLORER)
         browser['platform'] = 'Windows 8'
         browser['name'] = 'Windows 8 IE 10'
         browser['version'] = '10'
+        browser['tunnel-identifier'] = os.environ['TRAVIS_JOB_NUMBER']
         desired_capabilities += [browser]
 
         browser = copy.copy(webdriver.DesiredCapabilities.SAFARI)
         browser['platform'] = 'OS X 10.9'
         browser['name'] = 'OS X 10.9 Safari 7'
         browser['version'] = '7'
+        browser['tunnel-identifier'] = os.environ['TRAVIS_JOB_NUMBER']
         desired_capabilities += [browser]
 
         self.drivers = wd.parallel.Remote(
@@ -62,11 +69,13 @@ class TestLogin(unittest.TestCase):
         self.driver.find_element_by_name("password").clear()
         self.driver.find_element_by_name("password").send_keys("default")
         self.driver.find_element_by_css_selector("input[type=\"submit\"]").click()
+        element = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.NAME, "title"))
+        )
         self.driver.find_element_by_link_text("log out").click()
 
     @wd.parallel.multiply
     def tearDown(self):
-        print "Tearing down test...."
         status = sys.exc_info() == (None, None, None)
         print "Status: " + str(status)
         if status == True:
