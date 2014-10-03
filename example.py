@@ -55,8 +55,9 @@ class SauceSampleTest(unittest.TestCase):
 
     def test_sauce(self):
         self.driver.get('http://localhost:5000')
-        assert "I am a page title - Sauce Labs" in self.driver.title
         """
+        assert "I am a page title - Sauce Labs" in self.driver.title
+
         comments = self.driver.find_element_by_id('comments')
         comments.send_keys('Hello! I am some example comments.'
                            ' I should be in the page after submitting the form')
