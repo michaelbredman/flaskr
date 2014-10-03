@@ -44,6 +44,7 @@ def on_platforms(platforms):
 class SauceSampleTest(unittest.TestCase):
     def setUp(self):
         self.desired_capabilities['name'] = self.id()
+        self.desired_capabilities['tunnel-identifier'] = 'TRAVIS_JOB_NUMBER'
 
         sauce_url = "http://%s:%s@ondemand.saucelabs.com:80/wd/hub"
         self.driver = webdriver.Remote(
@@ -53,8 +54,9 @@ class SauceSampleTest(unittest.TestCase):
         self.driver.implicitly_wait(30)
 
     def test_sauce(self):
-        self.driver.get('http://saucelabs.com/test/guinea-pig')
+        self.driver.get('http://localhost:5000')
         assert "I am a page title - Sauce Labs" in self.driver.title
+        """
         comments = self.driver.find_element_by_id('comments')
         comments.send_keys('Hello! I am some example comments.'
                            ' I should be in the page after submitting the form')
@@ -69,6 +71,7 @@ class SauceSampleTest(unittest.TestCase):
         self.driver.find_elements_by_link_text('i am a link')[0].click()
         body = self.driver.find_element_by_xpath('//body')
         assert 'I am some other page content' in body.text
+        """
 
     def tearDown(self):
         print("Link to your job: https://saucelabs.com/jobs/%s" % self.driver.session_id)
