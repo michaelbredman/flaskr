@@ -19,5 +19,5 @@ before_script:
   - sqlite3 /tmp/flaskr.db < schema.sql
 script:
   - flask --app=flaskr run &> flask.log &
-  - python test_login.py
-  #- py.test -n4 --boxed example.py
+  #- python test_login.py
+  - py.test -n4 --boxed example.py
