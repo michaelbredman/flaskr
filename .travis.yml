@@ -13,9 +13,11 @@ install:
   - pip install https://github.com/mitsuhiko/flask/tarball/master
   - pip install selenium
   - pip install python-wd-parallel
+  - pip install selenium pytest pytest-xdist sauceclient
 # command to run tests
 before_script:
   - sqlite3 /tmp/flaskr.db < schema.sql
 script:
   - flask --app=flaskr run &> flask.log &
-  - python test_login.py
+  #- python test_login.py
+  - py.test -n4 --boxed example.py
