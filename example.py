@@ -23,10 +23,10 @@ browsers = [{"platform": "Mac OS X 10.9",
              "version": "11"},
             {"platform": "Mac OS X 10.9",
              "browserName": "chrome",
-             "version": "31"},
-            {"platform": "Windows 8.1",
+             "version": "32"},
+            {"platform": "Windows 8",
              "browserName": "internet explorer",
-             "version": "11"}]
+             "version": "10"}]
 
 
 def on_platforms(platforms):
