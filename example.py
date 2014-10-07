@@ -26,7 +26,7 @@ browsers = [{"platform": "Mac OS X 10.9",
              "version": "32"},
             {"platform": "Windows 8",
              "browserName": "internet explorer",
-             "version": "10"}]
+             "version": "10"},]
 
 
 def on_platforms(platforms):
@@ -44,8 +44,8 @@ def on_platforms(platforms):
 class SauceSampleTest(unittest.TestCase):
     def setUp(self):
         self.desired_capabilities['name'] = self.id()
-        self.desired_capabilities['tunnel-identifier'] = os.environ['TRAVIS_JOB_NUMBER']
-        self.desired_capabilities['build'] = os.environ['TRAVIS_JOB_NUMBER']
+        #self.desired_capabilities['tunnel-identifier'] = os.environ['TRAVIS_JOB_NUMBER']
+        #self.desired_capabilities['build'] = os.environ['TRAVIS_JOB_NUMBER']
 
         sauce_url = "http://%s:%s@ondemand.saucelabs.com:80/wd/hub"
         self.driver = webdriver.Remote(
@@ -56,24 +56,23 @@ class SauceSampleTest(unittest.TestCase):
 
     def test_sauce(self):
         self.driver.get('http://localhost:5000')
+        self.driver.find_element_by_link_text("log in").click()
+        self.driver.find_element_by_name("username").click()
+        self.driver.find_element_by_name("username").clear()
+        self.driver.find_element_by_name("username").send_keys("admin")
+        self.driver.find_element_by_name("password").click()
+        self.driver.find_element_by_name("password").clear()
+        self.driver.find_element_by_name("password").send_keys("default")
+        self.driver.find_element_by_css_selector("input[type=\"submit\"]").click()
         """
-        assert "I am a page title - Sauce Labs" in self.driver.title
-
-        comments = self.driver.find_element_by_id('comments')
-        comments.send_keys('Hello! I am some example comments.'
-                           ' I should be in the page after submitting the form')
-        self.driver.find_element_by_id('submit').click()
-
-        commented = self.driver.find_element_by_id('your_comments')
-        assert ('Your comments: Hello! I am some example comments.'
-                ' I should be in the page after submitting the form'
-                in commented.text)
-        body = self.driver.find_element_by_xpath('//body')
-        assert 'I am some other page content' not in body.text
-        self.driver.find_elements_by_link_text('i am a link')[0].click()
-        body = self.driver.find_element_by_xpath('//body')
-        assert 'I am some other page content' in body.text
+        try:
+            element = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.NAME, "title"))
+            )
+        except:
+            raise Exception
         """
+        self.driver.find_element_by_link_text("log out").click()
 
     def tearDown(self):
         print("Link to your job: https://saucelabs.com/jobs/%s" % self.driver.session_id)
