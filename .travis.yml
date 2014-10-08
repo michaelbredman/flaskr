@@ -11,7 +11,7 @@ addons:
 install:
   - sudo apt-get install sqlite3
   - pip install https://github.com/mitsuhiko/flask/tarball/master
-  - pip install selenium
+  # - pip install selenium
   - pip install python-wd-parallel
   - pip install selenium pytest pytest-xdist sauceclient
 # command to run tests
