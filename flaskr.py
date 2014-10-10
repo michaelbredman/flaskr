@@ -101,7 +101,7 @@ def add_entry():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     #This is for testing New Relic and Big Panda
-    #time.sleep(randint(1, 5))
+    time.sleep(randint(1, 5))
     error = None
     if request.method == 'POST':
         if request.form['username'] != app.config['USERNAME']:
