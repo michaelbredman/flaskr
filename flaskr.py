@@ -10,7 +10,8 @@
     :license: BSD, see LICENSE for more details.
 """
 
-import os
+import os, time
+from random import randint
 from sqlite3 import dbapi2 as sqlite3
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
@@ -99,6 +100,8 @@ def add_entry():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    #This is for testing New Relic and Big Panda
+    time.sleep(randint(1, 5))
     error = None
     if request.method == 'POST':
         if request.form['username'] != app.config['USERNAME']:

@@ -11,7 +11,6 @@ addons:
 install:
   - sudo apt-get install sqlite3
   - pip install https://github.com/mitsuhiko/flask/tarball/master
-  #- pip install python-wd-parallel
   - pip install selenium pytest pytest-xdist sauceclient
 # command to run tests
 before_script:
@@ -19,4 +18,4 @@ before_script:
 script:
   - flask --app=flaskr run &> flask.log &
   #- python test_login.py
-  - py.test -n4 --boxed example.py
+  - py.test -n12 --boxed example.py
