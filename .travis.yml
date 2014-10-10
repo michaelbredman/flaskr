@@ -18,4 +18,4 @@ before_script:
 script:
   - flask --app=flaskr run &> flask.log &
   #- python test_login.py
-  - py.test -n12 --boxed example.py
+  - py.test -n4 --boxed example.py

@@ -8,6 +8,9 @@ import unittest
 import sauceclient
 from selenium import webdriver
 from sauceclient import SauceClient
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 
 # it's best to remove the hardcoded defaults and always get these values
 # from environment variables
@@ -17,31 +20,7 @@ sauce = SauceClient(USERNAME, ACCESS_KEY)
 
 browsers = [{"platform": "Mac OS X 10.9",
              "browserName": "chrome",
-             "version": "31"},
-            {"platform": "Windows 8.1",
-             "browserName": "internet explorer",
-             "version": "11"},
-            {"platform": "Mac OS X 10.9",
-             "browserName": "safari",
-             "version": "7"},
-            {"platform": "Linux",
-             "browserName": "firefox",
-             "version": "32"},
-            {"platform": "Mac OS X 10.9",
-             "browserName": "chrome",
-             "version": "31"},
-            {"platform": "Windows 8.1",
-             "browserName": "internet explorer",
-             "version": "11"},
-            {"platform": "Mac OS X 10.9",
-             "browserName": "safari",
-             "version": "7"},
-            {"platform": "Linux",
-             "browserName": "firefox",
-             "version": "32"},
-            {"platform": "Mac OS X 10.9",
-             "browserName": "chrome",
-             "version": "31"},
+             "version": "35"},
             {"platform": "Windows 8.1",
              "browserName": "internet explorer",
              "version": "11"},
@@ -68,8 +47,8 @@ def on_platforms(platforms):
 class SauceSampleTest(unittest.TestCase):
     def setUp(self):
         self.desired_capabilities['name'] = self.id()
-        self.desired_capabilities['tunnel-identifier'] = os.environ['TRAVIS_JOB_NUMBER']
-        self.desired_capabilities['build'] = os.environ['TRAVIS_JOB_NUMBER']
+        #self.desired_capabilities['tunnel-identifier'] = os.environ['TRAVIS_JOB_NUMBER']
+        #self.desired_capabilities['build'] = os.environ['TRAVIS_JOB_NUMBER']
 
         sauce_url = "http://%s:%s@ondemand.saucelabs.com:80/wd/hub"
         self.driver = webdriver.Remote(
@@ -81,6 +60,12 @@ class SauceSampleTest(unittest.TestCase):
     def test_sauce(self):
         self.driver.get('http://localhost:5000')
         self.driver.find_element_by_link_text("log in").click()
+        try:
+            WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.NAME, "username"))
+            )
+        except:
+            raise Exception
         self.driver.find_element_by_name("username").click()
         self.driver.find_element_by_name("username").clear()
         self.driver.find_element_by_name("username").send_keys("admin")
@@ -88,14 +73,6 @@ class SauceSampleTest(unittest.TestCase):
         self.driver.find_element_by_name("password").clear()
         self.driver.find_element_by_name("password").send_keys("default")
         self.driver.find_element_by_css_selector("input[type=\"submit\"]").click()
-        """
-        try:
-            element = WebDriverWait(self.driver, 10).until(
-                EC.presence_of_element_located((By.NAME, "title"))
-            )
-        except:
-            raise Exception
-        """
         self.driver.find_element_by_link_text("log out").click()
 
     def tearDown(self):
