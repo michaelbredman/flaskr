@@ -22,7 +22,7 @@ browsers = [{"platform": "Mac OS X 10.9",
              "version": "11"},
             {"platform": "Mac OS X 10.9",
              "browserName": "chrome",
-             "version": "b"},
+             "version": "beta"},
             {"platform": "Linux",
              "browserName": "firefox",
              "version": "32"}]
