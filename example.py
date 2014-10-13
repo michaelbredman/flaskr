@@ -1,11 +1,7 @@
 import os
 import sys
-import httplib
-import base64
-import json
 import new
 import unittest
-import sauceclient
 from selenium import webdriver
 from sauceclient import SauceClient
 from selenium.webdriver.support.ui import WebDriverWait

@@ -10,7 +10,7 @@
     :license: BSD, see LICENSE for more details.
 """
 
-import os, time
+import os, time, newrelic
 from random import randint
 from sqlite3 import dbapi2 as sqlite3
 from flask import Flask, request, session, g, redirect, url_for, abort, \
@@ -100,8 +100,9 @@ def add_entry():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    #This is for testing New Relic and Big Panda
+    #This is for testing New Relic
     time.sleep(randint(1, 5))
+    #newrelic.agent.add_custom_parameter("Username", app.config['USERNAME'])
     error = None
     if request.method == 'POST':
         if request.form['username'] != app.config['USERNAME']:
