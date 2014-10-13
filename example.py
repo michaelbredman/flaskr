@@ -51,11 +51,10 @@ class SauceSampleTest(unittest.TestCase):
             desired_capabilities=self.desired_capabilities,
             command_executor=sauce_url % (USERNAME, ACCESS_KEY)
         )
-        self.driver.implicitly_wait(30)
+        #self.driver.implicitly_wait(30)
 
     def test_sauce(self):
         self.driver.get('http://localhost:5000')
-        '''
         self.driver.find_element_by_link_text("log in").click()
         try:
             WebDriverWait(self.driver, 10).until(
@@ -63,7 +62,6 @@ class SauceSampleTest(unittest.TestCase):
             )
         except:
             raise Exception
-        '''
         self.driver.find_element_by_name("username").click()
         self.driver.find_element_by_name("username").clear()
         self.driver.find_element_by_name("username").send_keys("admin")

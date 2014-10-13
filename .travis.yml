@@ -16,5 +16,6 @@ install:
 before_script:
   - sqlite3 /tmp/flaskr.db < schema.sql
 script:
-  - flask --app=flaskr run &> flask.log &
-  - py.test -n4 --boxed example.py
+  - sudo flask --app=flaskr initdb
+  - sudo flask --app=flaskr run &> flask.log &
+  - sudo py.test -n4 --boxed example.py
