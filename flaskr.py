@@ -10,8 +10,10 @@
     :license: BSD, see LICENSE for more details.
 """
 
-import os, time, newrelic
-from random import randint
+import os
+# import time
+# import newrelic
+# from random import randint
 from sqlite3 import dbapi2 as sqlite3
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
