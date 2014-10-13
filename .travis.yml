@@ -10,11 +10,12 @@ addons:
 # command to install dependencies
 install:
   - sudo apt-get install sqlite3
-  - pip install selenium pytest pytest-xdist sauceclient https://github.com/mitsuhiko/flask/tarball/master
+  - pip install https://github.com/mitsuhiko/flask/tarball/master
+  - pip install selenium pytest pytest-xdist sauceclient
 # command to run tests
 before_script:
   - sqlite3 /tmp/flaskr.db < schema.sql
 script:
-  - flask --app=flaskr initdb
+  #- flask --app=flaskr initdb
   - flask --app=flaskr run &> flask.log &
   - py.test -n4 --boxed example.py
