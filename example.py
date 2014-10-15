@@ -16,7 +16,7 @@ sauce = SauceClient(USERNAME, ACCESS_KEY)
 
 browsers = [{"platform": "Mac OS X 10.9",
              "browserName": "chrome",
-             "version": "35"},
+             "version": "32"},
             {"platform": "Windows 8.1",
              "browserName": "internet explorer",
              "version": "11"},
