@@ -23,4 +23,4 @@ script:
   #- flask --app=flaskr initdb
   - flask --app=flaskr run &> flask.log &
   - py.test -n4 --boxed example.py
-  - BP_API_TOKEN=c07b745b5db330137f62e44ce385090f bigpanda-deployment success flaskr 1 travishost
+  - BP_API_TOKEN=c07b745b5db330137f62e44ce385090f bigpanda-deployment success $APP_NAME $TRAVIS_BUILD_NUMBER travishost
