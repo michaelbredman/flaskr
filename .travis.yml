@@ -3,19 +3,24 @@ python:
   - 2.7
 env:
   global:
+    - APP_NAME=flaskr
     - secure: GuQ1IxuwcU7eLwzDA8zn6Xuea0XpDmBH9Pu/jeJrewaB4SypFv313ALpj5T7E22jZCh2t76IlAk5X0AHBLsgDWWv1ufnjUXQrnjPHrMifhcgp4nRTOOcFJLvVQZQOzWFJJohm6Tq4LqnDXgqA4Zc8abAmEU7OfRIjJ3LPRaL4kg=
     - secure: gATUbdF15YMERnj6mYVCoRwnZuWwsEmPXFf2vSoKjETowRn8hVE9+49hFup9VRJDl/hda31POMcy9NOnw05l3ihR8I2l8dFR6iLOLEzsLNZ+6y1VDbIodaXputWIEsoDZ6qgAZDRDpQmaQnGR53Q+BPQC3oufm0TATZp6z+iJnA=
 addons:
   sauce_connect: true
 # command to install dependencies
 install:
+  - sudo curl https://s3-us-west-1.amazonaws.com/bp-public/utilities/bigpanda-deployment -o /usr/local/bin/bigpanda-deployment
+  - sudo chmod a+x /usr/local/bin/bigpanda-deployment
   - sudo apt-get install sqlite3
   - pip install https://github.com/mitsuhiko/flask/tarball/master
   - pip install selenium pytest pytest-xdist sauceclient
 # command to run tests
 before_script:
+  - BP_API_TOKEN=c07b745b5db330137f62e44ce385090f bigpanda-deployment start $APP_NAME $TRAVIS_BUILD_ID $TRAVIS_OS_NAME
   - sqlite3 /tmp/flaskr.db < schema.sql
 script:
   #- flask --app=flaskr initdb
   - flask --app=flaskr run &> flask.log &
   - py.test -n4 --boxed example.py
+  - BP_API_TOKEN=c07b745b5db330137f62e44ce385090f bigpanda-deployment success $APP_NAME $TRAVIS_BUILD_ID $TRAVIS_OS_NAME
