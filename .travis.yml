@@ -17,7 +17,7 @@ install:
   - pip install selenium pytest pytest-xdist sauceclient
 # command to run tests
 before_script:
-  - BP_API_TOKEN=c07b745b5db330137f62e44ce385090f bigpanda-deployment start flaskr 1 travishost
+  - BP_API_TOKEN=c07b745b5db330137f62e44ce385090f bigpanda-deployment start $APP_NAME $TRAVIS_BUILD_NUMBER travishost
   - sqlite3 /tmp/flaskr.db < schema.sql
 script:
   #- flask --app=flaskr initdb
