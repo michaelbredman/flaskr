@@ -55,7 +55,7 @@ class SauceSampleTest(unittest.TestCase):
         #self.driver.implicitly_wait(30)
 
     def test_sauce(self):
-        self.driver.get('http://localhost:5000/')
+        self.driver.get('http://localhost:5001/')
         self.driver.find_element_by_link_text("log in").click()
         try:
             WebDriverWait(self.driver, 10).until(
