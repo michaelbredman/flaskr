@@ -103,8 +103,8 @@ def add_entry():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     #This is for testing New Relic
-    #time.sleep(randint(1, 5))
-    #newrelic.agent.add_custom_parameter("Username", app.config['USERNAME'])
+    time.sleep(randint(1, 5))
+    newrelic.agent.add_custom_parameter("Username", app.config['USERNAME'])
     error = None
     if request.method == 'POST':
         if request.form['username'] != app.config['USERNAME']:
