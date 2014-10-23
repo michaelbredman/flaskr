@@ -8,6 +8,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
+
 # it's best to remove the hardcoded defaults and always get these values
 # from environment variables
 USERNAME = os.environ.get('SAUCE_USERNAME', "michaelbredman")
@@ -43,7 +44,7 @@ def on_platforms(platforms):
 class SauceSampleTest(unittest.TestCase):
     def setUp(self):
         self.desired_capabilities['name'] = self.id()
-        ##self.desired_capabilities['tunnel-identifier'] = os.environ['TRAVIS_JOB_NUMBER']
+        #self.desired_capabilities['tunnel-identifier'] = os.environ['TRAVIS_JOB_NUMBER']
         #self.desired_capabilities['build'] = os.environ['TRAVIS_JOB_NUMBER']
 
         sauce_url = "http://%s:%s@ondemand.saucelabs.com:80/wd/hub"
