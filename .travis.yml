@@ -35,14 +35,15 @@ after_success:
   - sudo echo "[global]" >> .elasticbeanstalk/config
   - sudo echo "AwsCredentialFile=/Users/travis/.elasticbeanstalk/aws_credential_file"
     >> .elasticbeanstalk/config
+  - echo -e "AWSAccessKeyId=$AWS_ACCESS_KEY_ID\nAWSSecretKey=$AWS_SECRET_ACCESS_KEY" >> /Users/travis/.elasticbeanstalk/aws_credential_file
   - sudo echo "ApplicationName=flaskr" >> .elasticbeanstalk/config
   - sudo echo "DevToolsEndpoint=git.elasticbeanstalk.us-east-1.amazonaws.com" >> .elasticbeanstalk/config
-  - sudo echo "EnvironmentName=PROD_ENVIRONMENT_NAME" >> .elasticbeanstalk/config
+  - sudo echo "EnvironmentName=$PROD_ENVIRONMENT_NAME" >> .elasticbeanstalk/config
   - sudo echo "Region=us-east-1" >> .elasticbeanstalk/config
   - cat .elasticbeanstalk/config
   - cat ~/.elasticbeanstalk/aws_credential_file
   - echo "us-east-1" | git aws.config
-  - echo -e "$AWS_ACCESS_KEY_ID\n$AWS_SECRET_ACCESS_KEY\n1\n\n\n1\n53\n2\nN\n1\n" | AWS-ElasticBeanstalk-CLI-2.6.2/eb/linux/python2.7/eb init
+  - AWS-ElasticBeanstalk-CLI-2.6.2/eb/linux/python2.7/eb init
   - git aws.push
 
 after_failure:
