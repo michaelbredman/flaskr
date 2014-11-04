@@ -28,22 +28,7 @@ script:
 
 after_success:
   - BP_API_TOKEN=c07b745b5db330137f62e44ce385090f bigpanda-deployment success $APP_NAME $TRAVIS_BUILD_NUMBER travishost
-  - wget "https://s3.amazonaws.com/elasticbeanstalk/cli/AWS-ElasticBeanstalk-CLI-2.6.2.zip"
-  - unzip "AWS-ElasticBeanstalk-CLI-2.6.2.zip"
-  - AWS-ElasticBeanstalk-CLI-2.6.2/AWSDevTools/Linux/AWSDevTools-RepositorySetup.sh
-  - mkdir .elasticbeanstalk
-  - sudo echo "[global]" >> .elasticbeanstalk/config
-  - sudo echo "AwsCredentialFile=.elasticbeanstalk/aws_credential_file" >> .elasticbeanstalk/config
-  - echo -e "AWSAccessKeyId=$AWS_ACCESS_KEY_ID\nAWSSecretKey=$AWS_SECRET_ACCESS_KEY" >> .elasticbeanstalk/aws_credential_file
-  - sudo echo "ApplicationName=flaskr" >> .elasticbeanstalk/config
-  - sudo echo "DevToolsEndpoint=git.elasticbeanstalk.us-east-1.amazonaws.com" >> .elasticbeanstalk/config
-  - sudo echo "EnvironmentName=$PROD_ENVIRONMENT_NAME" >> .elasticbeanstalk/config
-  - sudo echo "Region=us-east-1" >> .elasticbeanstalk/config
-  - cat .elasticbeanstalk/config
-  - cat ~/.elasticbeanstalk/aws_credential_file
-  - echo "us-east-1" | git aws.config
-  - echo -e "$AWS_ACCESS_KEY_ID\n$AWS_SECRET_ACCESS_KEY\n1\n\n\n1\n53\n2\nN\n1\n" | AWS-ElasticBeanstalk-CLI-2.6.2/eb/linux/python2.7/eb init
-  - git aws.push
 
 after_failure:
   - BP_API_TOKEN=c07b745b5db330137f62e44ce385090f bigpanda-deployment fail $APP_NAME $TRAVIS_BUILD_NUMBER travishost
+
