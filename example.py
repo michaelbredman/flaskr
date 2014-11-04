@@ -59,7 +59,7 @@ class SauceSampleTest(unittest.TestCase):
         self.driver.find_element_by_link_text("log in").click()
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.presence_of_element_located((By.NAME, "frank"))
+                EC.presence_of_element_located((By.NAME, "username"))
             )
         except:
             raise Exception
