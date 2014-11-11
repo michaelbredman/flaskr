@@ -15,9 +15,9 @@ USERNAME = os.environ.get('SAUCE_USERNAME', "michaelbredman")
 ACCESS_KEY = os.environ.get('SAUCE_ACCESS_KEY', "81097e3b-d1b7-4c8f-8114-05f049da93ce")
 sauce = SauceClient(USERNAME, ACCESS_KEY)
 
-browsers = [{"platform": "Mac OS X 10.9",
-             "browserName": "chrome",
-             "version": "32"},
+browsers = [{"platform": "Windows 8",
+             "browserName": "internet explorer",
+             "version": "10"},
             {"platform": "Windows 8.1",
              "browserName": "internet explorer",
              "version": "11"},
