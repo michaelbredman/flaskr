@@ -26,7 +26,7 @@ browsers = [{"platform": "Windows 8",
              "version": "33"},
             {"platform": "Linux",
              "browserName": "firefox",
-             "version": "32"}]
+             "version": "31"}]
 
 
 def on_platforms(platforms):
