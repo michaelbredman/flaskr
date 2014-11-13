@@ -11,8 +11,8 @@ from selenium.webdriver.common.by import By
 
 # it's best to remove the hardcoded defaults and always get these values
 # from environment variables
-USERNAME = os.environ.get('SAUCE_USERNAME', "michaelbredman")
-ACCESS_KEY = os.environ.get('SAUCE_ACCESS_KEY', "81097e3b-d1b7-4c8f-8114-05f049da93ce")
+USERNAME = os.environ.get('SAUCE_USERNAME')
+ACCESS_KEY = os.environ.get('SAUCE_ACCESS_KEY')
 sauce = SauceClient(USERNAME, ACCESS_KEY)
 
 browsers = [{"platform": "Windows 8",
@@ -24,10 +24,9 @@ browsers = [{"platform": "Windows 8",
             {"platform": "Mac OS X 10.9",
              "browserName": "chrome",
              "version": "33"},
-            {"platform": "Linux",
-             "browserName": "firefox",
-             "version": "31"}]
-
+            {"platform": "Mac OS X 10.9",
+             "browserName": "iPhone",
+             "version": "8.1"}]
 
 def on_platforms(platforms):
     def decorator(base_class):
@@ -44,8 +43,8 @@ def on_platforms(platforms):
 class SauceSampleTest(unittest.TestCase):
     def setUp(self):
         self.desired_capabilities['name'] = self.id()
-        self.desired_capabilities['tunnel-identifier'] = os.environ['TRAVIS_JOB_NUMBER']
-        self.desired_capabilities['build'] = os.environ['TRAVIS_JOB_NUMBER']
+        #self.desired_capabilities['tunnel-identifier'] = os.environ['TRAVIS_JOB_NUMBER']
+        #self.desired_capabilities['build'] = os.environ['TRAVIS_JOB_NUMBER']
 
         sauce_url = "http://%s:%s@ondemand.saucelabs.com:80/wd/hub"
         self.driver = webdriver.Remote(
