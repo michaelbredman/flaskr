@@ -16,7 +16,7 @@ install:
   - sudo curl https://s3-us-west-1.amazonaws.com/bp-public/utilities/bigpanda-deployment -o /usr/local/bin/bigpanda-deployment
   - sudo chmod a+x /usr/local/bin/bigpanda-deployment
   - pip install https://github.com/mitsuhiko/flask/tarball/master
-  - pip install selenium pytest pytest-xdist sauceclient
+  - pip install selenium pytest pytest-xdist sauceclient mixpanel-py
 # command to run tests
 before_script:
   - BP_API_TOKEN=c07b745b5db330137f62e44ce385090f bigpanda-deployment start $APP_NAME $TRAVIS_BUILD_NUMBER travishost
@@ -24,7 +24,7 @@ before_script:
 script:
   - flask --app=flaskr initdb
   - flask --app=flaskr run &> flask.log &
-  - py.test -n4 --boxed example.py
+  - py.test -n5 --boxed example.py
 
 after_success:
   - BP_API_TOKEN=c07b745b5db330137f62e44ce385090f bigpanda-deployment success $APP_NAME $TRAVIS_BUILD_NUMBER travishost

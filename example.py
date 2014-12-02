@@ -26,7 +26,10 @@ browsers = [{"platform": "Windows 8",
              "version": "33"},
             {"platform": "Mac OS X 10.9",
              "browserName": "iPhone",
-             "version": "8.1"}]
+             "version": "8.1"},
+            {"platform": "Mac OS X 10.9",
+             "browserName": "iPhone",
+             "version": "8.0"}]
 
 def on_platforms(platforms):
     def decorator(base_class):
@@ -42,9 +45,10 @@ def on_platforms(platforms):
 @on_platforms(browsers)
 class SauceSampleTest(unittest.TestCase):
     def setUp(self):
+
         self.desired_capabilities['name'] = self.id()
-        self.desired_capabilities['tunnel-identifier'] = os.environ['TRAVIS_JOB_NUMBER']
-        self.desired_capabilities['build'] = os.environ['TRAVIS_JOB_NUMBER']
+        #self.desired_capabilities['tunnel-identifier'] = os.environ['TRAVIS_JOB_NUMBER']
+        #self.desired_capabilities['build'] = os.environ['TRAVIS_JOB_NUMBER']
 
         sauce_url = "http://%s:%s@ondemand.saucelabs.com:80/wd/hub"
         self.driver = webdriver.Remote(
@@ -53,7 +57,8 @@ class SauceSampleTest(unittest.TestCase):
         )
         #self.driver.implicitly_wait(30)
 
-    def test_sauce(self):
+    def test_login(self):
+
         self.driver.get('http://localhost:5000/')
         self.driver.find_element_by_link_text("log in").click()
         try:
