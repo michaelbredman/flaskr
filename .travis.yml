@@ -21,7 +21,7 @@ install:
 # command to run tests
 before_script:
   - BP_API_TOKEN=c07b745b5db330137f62e44ce385090f bigpanda-deployment start $APP_NAME $TRAVIS_BUILD_NUMBER travishost
-  - curl -H "x-api-key:c597e794ac5a48292c68c3149c1fe38ce55ec9ff00bd690" -d "deployment[app_name]=Flaskr" -d "deployment[revision]=$TRAVIS_BUILD_NUMBER" https://api.newrelic.com/deployments.xml
+  - curl -H "x-api-key:c597e794ac5a48292c68c3149c1fe38ce55ec9ff00bd690" -d "deployment[app_name]=Flaskr" -d "deployment[build]=$TRAVIS_BUILD_NUMBER" https://api.newrelic.com/deployments.xml
   - sqlite3 /tmp/flaskr.db < schema.sql
 script:
   - flask --app=flaskr initdb
@@ -31,6 +31,8 @@ script:
 
 after_success:
   - BP_API_TOKEN=c07b745b5db330137f62e44ce385090f bigpanda-deployment success $APP_NAME $TRAVIS_BUILD_NUMBER travishost
+  - curl -H "x-api-key:c597e794ac5a48292c68c3149c1fe38ce55ec9ff00bd690" -d "deployment[app_name]=Flaskr" -d "deployment[build]=$TRAVIS_BUILD_NUMBER" -d "deployment[description]=Build Successful" https://api.newrelic.com/deployments.xml
 
 after_failure:
   - BP_API_TOKEN=c07b745b5db330137f62e44ce385090f bigpanda-deployment fail $APP_NAME $TRAVIS_BUILD_NUMBER travishost
+  - curl -H "x-api-key:c597e794ac5a48292c68c3149c1fe38ce55ec9ff00bd690" -d "deployment[app_name]=Flaskr" -d "deployment[build]=$TRAVIS_BUILD_NUMBER" -d "deployment[description]=Build Failed" https://api.newrelic.com/deployments.xml
