@@ -25,7 +25,7 @@ before_script:
   - sqlite3 /tmp/flaskr.db < schema.sql
 script:
   - flask --app=flaskr initdb
-  - newrelic-admin run-program flask --app=flaskr run
+  - newrelic-admin run-program flask --app=flaskr run &> flask.log &
   #- flask --app=flaskr run &> flask.log &
   - py.test -n5 --boxed test_login.py
 
