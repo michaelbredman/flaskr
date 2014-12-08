@@ -18,7 +18,7 @@ install:
   - pip install newrelic
 # command to run tests
 before_script:
-  - curl -H "x-api-key:$NR_API_KEY" -d "deployment[app_name]=Flaskr" -d "deployment[build]=$TRAVIS_BUILD_NUMBER" https://api.newrelic.com/deployments.xml
+  - curl -H "x-api-key:$NR_API_KEY" -d "deployment[app_name]=Flaskr" -d "deployment[revison]=$TRAVIS_BUILD_NUMBER" https://api.newrelic.com/deployments.xml
   - sqlite3 /tmp/flaskr.db < schema.sql
 script:
   - flask --app=flaskr initdb
@@ -27,7 +27,7 @@ script:
   - py.test -n5 --boxed test_login.py
 
 after_success:
-  - curl -H "x-api-key:$NR_API_KEY" -d "deployment[app_name]=Flaskr" -d "deployment[build]=$TRAVIS_BUILD_NUMBER" -d "deployment[description]=Build Successful" https://api.newrelic.com/deployments.xml
+  - curl -H "x-api-key:$NR_API_KEY" -d "deployment[app_name]=Flaskr" -d "deployment[revison]=$TRAVIS_BUILD_NUMBER" -d "deployment[description]=Build Successful" https://api.newrelic.com/deployments.xml
 
 after_failure:
-  - curl -H "x-api-key:$NR_API_KEY" -d "deployment[app_name]=Flaskr" -d "deployment[build]=$TRAVIS_BUILD_NUMBER" -d "deployment[description]=Build Failed" https://api.newrelic.com/deployments.xml
+  - curl -H "x-api-key:$NR_API_KEY" -d "deployment[app_name]=Flaskr" -d "deployment[revison]=$TRAVIS_BUILD_NUMBER" -d "deployment[description]=Build Failed" https://api.newrelic.com/deployments.xml
