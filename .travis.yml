@@ -16,6 +16,7 @@ addons:
 install:
   - pip install https://github.com/mitsuhiko/flask/tarball/master
   - pip install newrelic
+  - pip install selenium pytest pytest-xdist sauceclient
 # command to run tests
 before_script:
   - curl -H "x-api-key:$NR_API_KEY" -d "deployment[app_name]=Flaskr" -d "deployment[revison]=$TRAVIS_BUILD_NUMBER" https://api.newrelic.com/deployments.xml
