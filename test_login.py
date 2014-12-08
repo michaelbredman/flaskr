@@ -1,66 +1,72 @@
+import os
+import sys
+import new
+import unittest
 from selenium import webdriver
-from selenium.webdriver.common.by import By
+from sauceclient import SauceClient
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import unittest
-import sys
-import copy
-import wd.parallel
-import os
+from selenium.webdriver.common.by import By
 
 
-class TestLogin(unittest.TestCase):
+# it's best to remove the hardcoded defaults and always get these values
+# from environment variables
+USERNAME = os.environ.get('SAUCE_USERNAME')
+ACCESS_KEY = os.environ.get('SAUCE_ACCESS_KEY')
+sauce = SauceClient(USERNAME, ACCESS_KEY)
 
+browsers = [{"platform": "Windows 8",
+             "browserName": "internet explorer",
+             "version": "10"},
+            {"platform": "Windows 8.1",
+             "browserName": "internet explorer",
+             "version": "11"},
+            {"platform": "Mac OS X 10.9",
+             "browserName": "chrome",
+             "version": "33"},
+            {"platform": "Mac OS X 10.9",
+             "browserName": "iPhone",
+             "version": "8.1"},
+            {"platform": "Mac OS X 10.9",
+             "browserName": "iPhone",
+             "version": "8.0"}]
+
+def on_platforms(platforms):
+    def decorator(base_class):
+        module = sys.modules[base_class.__module__].__dict__
+        for i, platform in enumerate(platforms):
+            d = dict(base_class.__dict__)
+            d['desired_capabilities'] = platform
+            name = "%s_%s" % (base_class.__name__, i + 1)
+            module[name] = new.classobj(name, (base_class,), d)
+    return decorator
+
+
+@on_platforms(browsers)
+class SauceSampleTest(unittest.TestCase):
     def setUp(self):
 
-        desired_capabilities = []
+        self.desired_capabilities['name'] = self.id()
+        #self.desired_capabilities['tunnel-identifier'] = os.environ['TRAVIS_JOB_NUMBER']
+        #self.desired_capabilities['build'] = os.environ['TRAVIS_JOB_NUMBER']
 
-        browser = copy.copy(webdriver.DesiredCapabilities.CHROME)
-        browser['platform'] = 'Windows 8.1'
-        browser['name'] = 'Windows 8.1 Chrome 35'
-        browser['version'] = '35'
-        browser['tunnel-identifier'] = os.environ['TRAVIS_JOB_NUMBER']
-        desired_capabilities += [browser]
-
-        browser = copy.copy(webdriver.DesiredCapabilities.FIREFOX)
-        browser['platform'] = 'Windows 8.1'
-        browser['name'] = 'Windows 8.1 Firefox 29'
-        browser['version'] = '29'
-        browser['screen-resolution'] = '1280x1024'
-        browser['tunnel-identifier'] = os.environ['TRAVIS_JOB_NUMBER']
-        desired_capabilities += [browser]
-
-        browser = copy.copy(webdriver.DesiredCapabilities.INTERNETEXPLORER)
-        browser['platform'] = 'Windows 7'
-        browser['name'] = 'Windows 7 IE 9'
-        browser['version'] = '9'
-        browser['tunnel-identifier'] = os.environ['TRAVIS_JOB_NUMBER']
-        desired_capabilities += [browser]
-
-        browser = copy.copy(webdriver.DesiredCapabilities.INTERNETEXPLORER)
-        browser['platform'] = 'Windows 8'
-        browser['name'] = 'Windows 8 IE 10'
-        browser['version'] = '10'
-        browser['tunnel-identifier'] = os.environ['TRAVIS_JOB_NUMBER']
-        desired_capabilities += [browser]
-
-        browser = copy.copy(webdriver.DesiredCapabilities.SAFARI)
-        browser['platform'] = 'OS X 10.9'
-        browser['name'] = 'OS X 10.9 Safari 7'
-        browser['version'] = '7'
-        browser['tunnel-identifier'] = os.environ['TRAVIS_JOB_NUMBER']
-        desired_capabilities += [browser]
-
-        self.drivers = wd.parallel.Remote(
-            desired_capabilities=desired_capabilities,
-            command_executor="http://" + os.environ['SAUCE_USERNAME'] + ":" + os.environ['SAUCE_ACCESS_KEY'] + "@ondemand.saucelabs.com:80/wd/hub"
+        sauce_url = "http://%s:%s@ondemand.saucelabs.com:80/wd/hub"
+        self.driver = webdriver.Remote(
+            desired_capabilities=self.desired_capabilities,
+            command_executor=sauce_url % (USERNAME, ACCESS_KEY)
         )
+        #self.driver.implicitly_wait(30)
 
-    @wd.parallel.multiply
-    def test_parallel(self):
+    def test_login(self):
 
-        self.driver.get("http://localhost:5000")
+        self.driver.get('http://localhost:5000/')
         self.driver.find_element_by_link_text("log in").click()
+        try:
+            WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.NAME, "username"))
+            )
+        except:
+            raise Exception
         self.driver.find_element_by_name("username").click()
         self.driver.find_element_by_name("username").clear()
         self.driver.find_element_by_name("username").send_keys("admin")
@@ -68,29 +74,14 @@ class TestLogin(unittest.TestCase):
         self.driver.find_element_by_name("password").clear()
         self.driver.find_element_by_name("password").send_keys("default")
         self.driver.find_element_by_css_selector("input[type=\"submit\"]").click()
-        """
-        try:
-            element = WebDriverWait(self.driver, 10).until(
-                EC.presence_of_element_located((By.NAME, "title"))
-            )
-        except:
-            raise Exception
-        """
         self.driver.find_element_by_link_text("log out").click()
 
-    @wd.parallel.multiply
     def tearDown(self):
-        status = sys.exc_info() == (None, None, None)
-        #print self.driver.session_id
-        #print "sys.exc_info(): " + str(sys.exc_info())
-        #print "Status: " + str(status)
-        if status == True:
-            print "Test passed...."
-        else:
-            print "Test failed.... https://saucelabs.com/tests/" + self.driver.session_id
-
-        self.driver.quit()
-
-
-if __name__ == '__main__':
-    unittest.main()
+        print("Link to your job: https://saucelabs.com/jobs/%s" % self.driver.session_id)
+        try:
+            if sys.exc_info() == (None, None, None):
+                sauce.jobs.update_job(self.driver.session_id, passed=True)
+            else:
+                sauce.jobs.update_job(self.driver.session_id, passed=False)
+        finally:
+            self.driver.quit()
