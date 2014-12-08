@@ -19,6 +19,7 @@ install:
   - pip install selenium pytest pytest-xdist sauceclient
 # command to run tests
 before_script:
+  - newrelic-admin generate-config $NR_API_KEY newrelic.ini
   - curl -H "x-api-key:$NR_API_KEY" -d "deployment[app_name]=Flaskr" -d "deployment[revison]=$TRAVIS_BUILD_NUMBER" https://api.newrelic.com/deployments.xml
   - sqlite3 /tmp/flaskr.db < schema.sql
 script:
