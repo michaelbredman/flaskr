@@ -23,7 +23,6 @@ before_script:
 script:
   - flask --app=flaskr initdb
   - newrelic-admin run-program flask --app=flaskr run &> flask.log &
-  #- flask --app=flaskr run &> flask.log &
   - py.test -n5 --boxed test_login.py
 
 after_success:

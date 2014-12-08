@@ -21,15 +21,12 @@ browsers = [{"platform": "Windows 8",
             {"platform": "Windows 8.1",
              "browserName": "internet explorer",
              "version": "11"},
-            {"platform": "Mac OS X 10.9",
+            {"platform": "OS X 10.9",
              "browserName": "chrome",
              "version": "33"},
-            {"platform": "Mac OS X 10.9",
-             "browserName": "iPhone",
-             "version": "8.1"},
-            {"platform": "Mac OS X 10.9",
-             "browserName": "iPhone",
-             "version": "8.0"}]
+            {"platform": "OS X 10.9",
+             "browserName": "chrome",
+             "version": "31"}]
 
 def on_platforms(platforms):
     def decorator(base_class):
