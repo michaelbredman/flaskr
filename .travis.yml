@@ -28,12 +28,12 @@ script:
 - newrelic-admin run-program flask --app=flaskr run &> flask.log &
 - py.test -n5 --boxed test_login.py
 after_success:
-  - chmod a+x /script/loadosophia.sh
-  - ls -la
+  - chmod a+x script/loadosophia.sh
+  - ls -la script
   - ./script/loadosophia.sh
 after_failure:
-  - chmod a+x /script/loadosophia.sh
-  - ls -la
+  - chmod a+x script/loadosophia.sh
+  - ls -la script
   - ./script/loadosophia.sh
 before_install:
 - openssl aes-256-cbc -K $encrypted_4069a4891efc_key -iv $encrypted_4069a4891efc_iv
