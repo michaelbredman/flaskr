@@ -28,6 +28,8 @@ script:
 - py.test -n5 --boxed test_login.py
 after_success:
   - ./script/loadosophia.sh
+after_failure:
+  - ./script/loadosophia.sh
 before_install:
 - openssl aes-256-cbc -K $encrypted_4069a4891efc_key -iv $encrypted_4069a4891efc_iv
   -in .loadosophia.token.enc -out .loadosophia.token -d
