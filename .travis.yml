@@ -15,18 +15,17 @@ env:
 addons:
   sauce_connect: true
 install:
-- pip install https://github.com/mitsuhiko/flask/tarball/master
-- pip install newrelic
-- pip install selenium pytest pytest-xdist sauceclient
+  - pip install https://github.com/mitsuhiko/flask/tarball/master
+  - pip install newrelic
+  - pip install selenium pytest pytest-xdist sauceclient
 before_script:
-- newrelic-admin generate-config $NR_API_KEY newrelic.ini
-- curl -H "x-api-key:$NR_API_KEY" -d "deployment[app_name]=Flaskr" -d "deployment[revison]=$TRAVIS_BUILD_NUMBER"
-  https://api.newrelic.com/deployments.xml
-- sqlite3 /tmp/flaskr.db < schema.sql
+  - newrelic-admin generate-config $NR_API_KEY newrelic.ini
+  - curl -H "x-api-key:$NR_API_KEY" -d "deployment[app_name]=Flaskr" -d "deployment[revison]=$TRAVIS_BUILD_NUMBER" https://api.newrelic.com/deployments.xml
+  - sqlite3 /tmp/flaskr.db < schema.sql
 script:
-- flask --app=flaskr initdb
-- newrelic-admin run-program flask --app=flaskr run &> flask.log &
-- py.test -n5 --boxed test_login.py
+  - flask --app=flaskr initdb
+  - newrelic-admin run-program flask --app=flaskr run &> flask.log &
+  - py.test -n5 --boxed test_login.py
 after_success:
   - chmod a+x script/loadosophia.sh
   - ls -la script
@@ -36,5 +35,5 @@ after_failure:
   - ls -la script
   - ./script/loadosophia.sh
 before_install:
-- openssl aes-256-cbc -K $encrypted_4069a4891efc_key -iv $encrypted_4069a4891efc_iv
-  -in .loadosophia.token.enc -out .loadosophia.token -d
+  - openssl aes-256-cbc -K $encrypted_4069a4891efc_key -iv $encrypted_4069a4891efc_iv
+    -in .loadosophia.token.enc -out .loadosophia.token -d
