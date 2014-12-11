@@ -29,7 +29,7 @@ script:
 after_success:
 - curl -H "x-api-key:$NR_API_KEY" -d "deployment[app_name]=Flaskr" -d "deployment[revison]=$TRAVIS_BUILD_NUMBER"
   -d "deployment[description]=Build Successful" https://api.newrelic.com/deployments.xml
-- script/loadosophia.sh
+  - ./script/loadosophia.sh
 after_failure:
 - curl -H "x-api-key:$NR_API_KEY" -d "deployment[app_name]=Flaskr" -d "deployment[revison]=$TRAVIS_BUILD_NUMBER"
   -d "deployment[description]=Build Failed" https://api.newrelic.com/deployments.xml
